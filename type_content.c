@@ -3,6 +3,23 @@
 #include<conio.h>
 #include<string.h>  
 #include"type_content.h"
+#include"user_manage.h"
+int menu_input(int n)
+{
+    char tmp[10];
+    switch(n)
+    {
+        case 1:
+            sim_type("Wait a minute... Do I know you?\n1)Yes\n2)No\n");
+            scanf("%s",tmp);
+            if((!strcmpi("Yes",tmp))||(!strcmpi("1",tmp)))
+                login();
+            else if((!strcmpi("No",tmp))||(!strcmpi("2",tmp)))
+                signup();
+            
+    }
+    return 0;
+}
 void print_menu()
 {
     int count=sim_type("Welcome To Turb");
@@ -16,7 +33,7 @@ void print_menu()
     Sleep(500);
     sim_del(count+3);
     Sleep(200);
-    count=sim_type("What would you like to do today?:\n1)Move it Move it\n2)Ayyy Wassup Gayathri and Harini\n3)This pretty cool eh?\n4)Ok bye");
+    menu_input(1);
 }
 void sim_del(int count)
 {
