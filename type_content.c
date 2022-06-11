@@ -63,7 +63,7 @@ int menu_type(const char *p)
     }
     return count;
 }
-void sim_type( const char* p,int size)
+void type_disp( const char* p,int size)
 {
     int rows=0;
     int columns=0;
