@@ -6,7 +6,7 @@ int main()
 {
     print_menu();//calls function from type_content.h to print the Landing Page
     /*TC_CLRSCR();
-    sim_type("Testing string and random characters ",37);
+    type_disp("Testing string and random characters ",37);
     type_input("Testing string and random characters ",37);*/
     return 0;
 }
