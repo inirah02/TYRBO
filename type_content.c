@@ -7,13 +7,15 @@
 #include<string.h> //includes string.h that contains string manipulation functions like strcmpi() strlen()
 #include"type_content.h"//includes the user defined type_content.h header file
 #include"user_manage.h"//includes the user defined user_manage.h header file
+#include<time.h>
+#include"tc.h"
 int menu_input(int n)//function that prints the various menus to be used throughout the program
 {
     char tmp[10];
     switch(n)
     {
         case 1://prints login/signup page
-            sim_type("Wait a minute... Do I know you?\n1)Yes\n2)No\n");//this function prints information on screen in a typing like simulation
+            menu_type("Wait a minute... Do I know you?\n1)Yes\n2)No\n");//this function prints information on screen in a typing like simulation
             scanf("%s",tmp);
             if((!strcmpi("Yes",tmp))||(!strcmpi("1",tmp)))//allows user to enter "1" or "yes" to confirm
                 login();//User defined function to access user details from the database and log them in
@@ -25,20 +27,20 @@ int menu_input(int n)//function that prints the various menus to be used through
 }
 void print_menu()//function to print the Landing Page
 {
-    int count=sim_type("Welcome To Turb");
+    int count=menu_type("Welcome To Turb");
     Sleep(1000);//stops execution for time in ms specified in parameter
     for(int i=0;i<3;i++)
     {
-        sim_del(1);
+        menu_del(1);
         Sleep(100);
     }
-    sim_type("yrbo!!");
+    menu_type("yrbo!!");
     Sleep(500);
-    sim_del(count+3);
+    menu_del(count+3);
     Sleep(200);
     menu_input(1);
 }
-void sim_del(int count)//function to clear information from terminal in a typing like simulation(as though using backspace)
+void menu_del(int count)//function to clear information from terminal in a typing like simulation(as though using backspace)
 {
     for(int i=0;i<count;i++)
     {
@@ -46,7 +48,7 @@ void sim_del(int count)//function to clear information from terminal in a typing
         printf("\b \b");
     }
 }
-int sim_type(const char *p)
+int menu_type(const char *p)
 {
     int count=0;
     if(p==NULL)
@@ -60,4 +62,78 @@ int sim_type(const char *p)
         count++;
     }
     return count;
+}
+void sim_type( const char* p,int size)
+{
+    int rows=0;
+    int columns=0;
+    termsize(&rows,&columns);
+    TC_CLRSCR();
+    TC_MOVE_CURSOR(rows/2,(columns-size)/2);
+    if(p==NULL)
+        return;
+    for(int i=0;*p;i++)
+    {
+        if(i==columns-5)
+        {
+            i=0;
+            printf("\n");
+        }
+        printf("%c\xDB",*p++);
+        Sleep(30);
+        printf("\b \b");
+    }
+}
+void type_input(const char* p,int size)
+{
+    printf("\e[?25l");
+    int rows=0;
+    int columns=0;
+    termsize(&rows,&columns);
+    clock_t t;
+    char ch='a';
+    int tmp=1;
+    int count=0;
+    while(((*(p+1))!='\0')&&(ch=getch()))
+    {
+        if(tmp)
+        {
+            t=clock();
+            tmp--;
+        }
+        if(ch==*p)
+        {
+            TC_MOVE_CURSOR(rows/2,(columns-size)/2);
+            printf("%s\b",p+1);
+            p+=1;
+            count+=1;
+        }
+        else
+        {   
+            if(*p==' ')
+            {
+                TC_MOVE_CURSOR(rows/2,(columns-size)/2);
+                printf("%s%c%s%s\b",TC_RED,'_',TC_NRM,p+1);
+                continue;
+            }
+            TC_MOVE_CURSOR(rows/2,(columns-size)/2);
+            printf("%s%c%s%s\b",TC_RED,*(p),TC_NRM,p+1);
+            count+=1;
+        }
+    }
+    t = clock() - t;
+    float time_taken = ((float)t)/CLOCKS_PER_SEC; // calculate the elapsed time
+    score(time_taken,count,size);
+}
+void score(float time_taken,int count,int size)
+{
+    TC_MOVE_CURSOR(0,0);
+    float wpm=((size/5)/(time_taken/60));
+    float acc=((float)size/(float)count)*100;
+    float netwpm=wpm*(acc/100);
+    printf("\nTime Taken: %s%.2fs%s\nCharacters: %s%d/%d%s",TC_GRN,time_taken,TC_NRM,TC_GRN,++count,size,TC_NRM);
+    printf("\nYour WPM was: %s%.1f%s",TC_GRN,wpm,TC_NRM);
+    printf("\nYour net WPM was: %s%.1f%s",TC_GRN,netwpm,TC_NRM);
+    printf("\nYour accuracy was: %s%.1f%c%s",TC_GRN,acc,'%',TC_NRM);
+    getch();
 }
