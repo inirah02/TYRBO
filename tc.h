@@ -32,29 +32,4 @@ int termsize(int *rows,int *columns);
 #define TC_CLRSCR() puts("\x1B[2J")
 #define TC_MOVE_CURSOR(X,Y) printf("\033[%d;%dH",Y,X)
 
-/*int* termsize(int *term)
-{
-    CONSOLE_SCREEN_BUFFER_INFO csbi;
-    int columns, rows;
-
-    GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
-    columns = csbi.srWindow.Right - csbi.srWindow.Left + 1;
-    rows = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
-    printf("%d\n%d",columns,rows);
-    term[0]=rows;
-    term[1]=columns;
-    return term;
-}*/
-/*int termsize(int *rows,int *columns)
-{
-    CONSOLE_SCREEN_BUFFER_INFO csbi;
-
-    GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
-    *columns = csbi.srWindow.Right - csbi.srWindow.Left + 1;
-    *rows = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
-    //printf("%d\n%d",columns,rows);
-    //term[0]=rows;
-    //term[1]=columns;
-}*/
-
 #endif
