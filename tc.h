@@ -30,5 +30,6 @@ int termsize(int *rows,int *columns);
 #define TC_BG_WHT "\x1B[47m"
 
 #define TC_CLRSCR() puts("\x1B[2J")
-#define TC_MOVE_CURSOR(X,Y) printf("\033[%d;%dH",X,Y)
+#define TC_MOVE_CURSOR(X,Y) printf("\033[%d;%dH",Y,X)
+
 #endif

@@ -63,38 +63,64 @@ int menu_type(const char *p)
     }
     return count;
 }
-void type_disp( const char* p,int size)
+void type_disp( char* p,int size)
 {
+    TC_CLRSCR();
+    char tmp[size];
+    strcpy(tmp,p);
     int rows=0;
     int columns=0;
     termsize(&rows,&columns);
+    int x=(size>columns)?0:((columns-size)/2);
+    int y=rows/2;
     TC_CLRSCR();
-    TC_MOVE_CURSOR(rows/2,(columns-size)/2);
+    TC_MOVE_CURSOR(x,y);
     if(p==NULL)
         return;
-    for(int i=0;*p;i++)
+    for(int i=1;*p;i++)
     {
-        if(i==columns-5)
+        if(i==columns-1)
         {
-            i=0;
-            printf("\n");
+            i=1;
+            y++;
+            TC_MOVE_CURSOR(x,y);
+            strcat(tmp,"  ");
         }
-        printf("%c\xDB",*p++);
+        printf("%c\xDB",*(p++));
         Sleep(30);
-        printf("\b \b");
+        printf("\b \b"); 
+        //Sleep(30);
     }
+    TC_MOVE_CURSOR(x,(rows/2));
+    type_input(tmp,size,rows,columns);
 }
-void type_input(const char* p,int size)
+void trimTrailing(char * str)
 {
     printf("\e[?25l");
-    int rows=0;
-    int columns=0;
-    termsize(&rows,&columns);
+    int index, i;
+    index = -1;//Set default index
+    i = 0;//Find last index of non-white space character
+    while(str[i] != '\0')
+    {
+        if(str[i] != ' ' && str[i] != '\t' && str[i] != '\n')
+        {
+            index= i;
+        }
+        i++;
+    }
+    str[index + 2] = '\0';//Mark next character to last non-white space character as NULL
+}
+void type_input(char* p,int size,int rows, int columns)
+{
+    printf("\e[?25l");
     clock_t t;
     char ch='a';
     int tmp=1;
     int count=0;
-    while(((*(p+1))!='\0')&&(ch=getch()))
+    int x=(size>columns)?0:((columns-size)/2);
+    //int y=0;
+    int y=rows/2;
+    for(;((*(p+1))!='\0')&&(ch=getch());)
     {
         if(tmp)
         {
@@ -103,20 +129,20 @@ void type_input(const char* p,int size)
         }
         if(ch==*p)
         {
-            TC_MOVE_CURSOR(rows/2,(columns-size)/2);
+            TC_MOVE_CURSOR(x,y);
             printf("%s\b",p+1);
             p+=1;
             count+=1;
+            trimTrailing(p);
         }
         else
-        {   
+        {  
+            TC_MOVE_CURSOR(x,y); 
             if(*p==' ')
             {
-                TC_MOVE_CURSOR(rows/2,(columns-size)/2);
                 printf("%s%c%s%s\b",TC_RED,'_',TC_NRM,p+1);
                 continue;
             }
-            TC_MOVE_CURSOR(rows/2,(columns-size)/2);
             printf("%s%c%s%s\b",TC_RED,*(p),TC_NRM,p+1);
             count+=1;
         }
