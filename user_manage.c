@@ -72,10 +72,23 @@ int login()
     else
     {
         printf("\nSORRY, Username DOESN'T EXIST.\n");
-        Sleep(1500);
-        TC_CLRSCR();
-        TC_MOVE_CURSOR(0,0);
-        return 0;
+        printf("\nSign Up?\n1)Yes\n2)No\n");
+        char che[4];
+        scanf("%s",che);
+        fflush(stdin);
+        if(!strcmpi("Yes",che)||!strcmpi("1",che))
+        {
+            signup();
+            return -1;
+        }
+        else if((!strcmpi("No",che)||!strcmpi("2",che)))
+            return login();
+        else
+        {
+            TC_CLRSCR();
+            TC_MOVE_CURSOR(0,0);
+            return -1;
+        }
     }
 }
 void display_users()
