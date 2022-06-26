@@ -17,11 +17,26 @@ int menu_input(int n)//function that prints the various menus to be used through
         case 1://prints login/signup page
             menu_type("Wait a minute... Do I know you?\n1)Yes\n2)No\n");//this function prints information on screen in a typing like simulation
             scanf("%s",tmp);
+            fflush(stdin);
+            openfile_user(); //opens CSV file and stores user data into array of structures.
             if((!strcmpi("Yes",tmp))||(!strcmpi("1",tmp)))//allows user to enter "1" or "yes" to confirm
-                login();//User defined function to access user details from the database and log them in
+            {
+                /*  user_n contains index corresponding to user's structure on successful login.
+                    Contains -1 if login is unsuccessful.
+                */
+                int user_n=login(); //User defined function to access user details from the CSV file and log them in
+                if(user_n!=-1)
+                {
+                   //NEXT
+                }
+                else
+                    menu_input(1);
+            }
             else if((!strcmpi("No",tmp))||(!strcmpi("2",tmp)))//allows user to enter "2" or "no" to confirm
-                signup();//User defined function to accept new user and store their details in database
-            
+            {
+                signup(); //User defined function to accept new user and store their details in CSV file
+                menu_input(1);
+            }
     }
     return 0;
 }
