@@ -33,6 +33,8 @@ int login()
             if(ch=='\b')
             {
                 if(i<1)
+			
+
                     continue;
                 printf("\b \b");
                 i--;
@@ -327,4 +329,24 @@ char* decrypt(char s[])
         s[i]=s[i]-2*i-4;
     s[i]='\0';
     return s;
+}
+
+
+// metric scale for generating feedback wrt wpm
+
+char* feedback_generator(float metric)
+{
+    
+    if(metric>50 && metric<=85)
+        return("Excellent, Your typing speed is par professional! ");
+    else if(metric>40 && metric<=50)
+        return("Great, Your typing speed is pretty commendable! ");
+    else if(metric>30 && metric<=40)
+        return("Average, Your typing speed is in tandem with the normal typing speed");
+    else if(metric>20 && metric<=30)
+        return("Poor, You must work on your typing speed and improve!");
+    else
+        return("\n Incorrect ");
+    
+   
 }
