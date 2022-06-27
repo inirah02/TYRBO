@@ -175,7 +175,27 @@ void score(float time_taken,int count,int size)
     printf("\nTime Taken: %s%.2fs%s\nCharacters: %s%d/%d%s",TC_GRN,time_taken,TC_NRM,TC_GRN,++count,size,TC_NRM);
     printf("\nYour WPM was: %s%.1f%s",TC_GRN,wpm,TC_NRM);
     printf("\nYour net WPM was: %s%.1f%s",TC_GRN,netwpm,TC_NRM);
-    printf("\nYour accuracy was: %s%.1f%c%s",TC_GRN,acc,'%',TC_NRM);
+    if(acc==100.0)
+    {
+        printf("\nYour accuracy was: %s",TC_CYN);
+    }
+    else if(acc>=95.0)
+    {
+        printf("\nYour accuracy was: %s",TC_MAG);
+    }
+    else if(acc>=90.0 && acc<95.0)
+    {
+        printf("\nYour accuracy was: %s",TC_GRN);
+    }
+    else if(acc>=80.0 && acc<90.0)
+    {
+        printf("\nYour accuracy was: %s",TC_YEL);
+    }
+    else
+    {
+        printf("\nYour accuracy was: %s",TC_RED);
+    }
+    printf("%.1f%c%s",acc,'%',TC_NRM);
     getch();
     //score_save(&wpm,&acc,&netwpm,&time_taken);
 }
