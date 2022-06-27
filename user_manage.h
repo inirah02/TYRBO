@@ -50,3 +50,6 @@ char* decrypt(char []);
     usernames 
 */
 void display_users();
+
+   // metric scale
+  char* feedback_generator(float metric);
