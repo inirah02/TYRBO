@@ -12,3 +12,7 @@ void signup()//User defined function to accept new user and store their details 
 {
     printf("Code for signup pending");
 }
+void score_save(float *wpm,float *acc,float *netwpm,float *time_taken)
+{
+    //TODO
+}
