@@ -5,6 +5,6 @@
 int main()
 {
     print_menu();//calls function from type_content.h to print the Landing Page
-    type_disp("Wikipedia is a multilingual free online encyclopedia written and maintained by a community of volunteers through open collaboration and a wiki-based editing system. Individual contributors, also called editors, are known as Wikipedians.Wikipedia is a multilingual free online encyclopedia written and maintained by a community of volunteers through open collaboration and a wiki-based editing system. Individual contributors, also called editors, are known as Wikipedians. ",473);
+    type_disp("Wikipedia is a multilingual free online ",40);
     return 0;
 }

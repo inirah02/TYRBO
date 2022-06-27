@@ -177,4 +177,5 @@ void score(float time_taken,int count,int size)
     printf("\nYour net WPM was: %s%.1f%s",TC_GRN,netwpm,TC_NRM);
     printf("\nYour accuracy was: %s%.1f%c%s",TC_GRN,acc,'%',TC_NRM);
     getch();
+    //score_save(&wpm,&acc,&netwpm,&time_taken);
 }
