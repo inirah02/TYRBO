@@ -8,7 +8,8 @@ typedef struct user
     char sq[100];
     char sa[100];
 }USER;
-
+extern USER s[100];
+extern int curr_user;
 /*  User defined function to access user details from the CSV file and log them in
     Returns array index associated with the user on successful login.
     Returns -1 if login is unsuccessful.
@@ -51,5 +52,6 @@ char* decrypt(char []);
 */
 void display_users();
 
-   // metric scale
-  char* feedback_generator(float metric);
+int user_settings();
+int delete_user();
+void change_user_details();

@@ -9,6 +9,7 @@
 #include"user_manage.h"//includes the user defined user_manage.h header file
 #include<time.h>
 #include"tc.h"
+
 int menu_input(int n)//function that prints the various menus to be used throughout the program
 {
     char tmp[10];
@@ -24,11 +25,9 @@ int menu_input(int n)//function that prints the various menus to be used through
                 /*  user_n contains index corresponding to user's structure on successful login.
                     Contains -1 if login is unsuccessful.
                 */
-                int user_n=login(); //User defined function to access user details from the CSV file and log them in
-                if(user_n!=-1)
-                {
-                   //NEXT
-                }
+                curr_user=login(); //User defined function to access user details from the CSV file and log them in
+                if(curr_user!=-1)
+                   user_menu();
                 else
                     menu_input(1);
             }
@@ -197,5 +196,161 @@ void score(float time_taken,int count,int size)
     }
     printf("%.1f%c%s",acc,'%',TC_NRM);
     getch();
-    //score_save(&wpm,&acc,&netwpm,&time_taken);
+    int mode; //Just for now to avoid error
+    score_save(&mode,&wpm,&acc,&netwpm,&time_taken);
+}
+
+void score_save(int *mode,float *wpm,float *acc,float *netwpm,float *time_taken)
+{
+    //dodo
+}
+char* level(int operation)
+{
+    switch(operation)
+    {
+        case 1:
+            return("harry edward styles is an english singer songwriter and actor his musical career began as a solo contestant on the british music competition series the x factor following his elimination he was brought back to join the boy band one direction which went on to become one of the best selling boy bands of all time before going on an indefinite hiatus" );
+            break;
+
+        case 2:
+            return("harry edward styles is an english singer songwriter and actor his musical career began as a solo contestant on the british music competition series the x factor following his elimination he was brought back to join the boy band one direction which went on to become one of the best selling boy bands of all time before going on an indefinite hiatus. Styles released his self-titled debut solo album through Columbia Records in 2017. It debuted at number one in the UK and the US and was one of the world's top-ten best-selling albums of the year, while its lead single, Sign of the Times, topped the UK Singles Chart. Styles second album, Fine Line (2019), debuted atop the US Billboard 200 with the biggest ever first-week sales by an English male artist, and was the most recent album to be included in Rolling Stone's 500 Greatest Albums of All Time in 2020. Its fourth single, Watermelon Sugar, topped the US Billboard Hot 100. Featuring the chart-topping single As It Was, Styles third album, Harry's House (2022) was widely acclaimed and broke several records" );
+            break;
+
+        case 3:
+            return("Harry Edward Styles (born 1 February 1994) is an English singer, songwriter and actor. His musical career began in 2010 as a solo contestant on the British music competition series *[The X Factor](https://en.wikipedia.org/wiki/The_X_Factor_(UK_TV_series))*. Following his elimination, he was brought back to join the boy band [One Direction](https://en.wikipedia.org/wiki/One_Direction), which went on to become one of the [best-selling boy bands](https://en.wikipedia.org/wiki/Boy_band#Best-selling_boy_bands) of all time before going on an indefinite hiatus in 2016. Styles released his [self-titled debut solo album](https://en.wikipedia.org/wiki/Harry_Styles_(album)) through [Columbia Records](https://en.wikipedia.org/wiki/Columbia_Records) in 2017. It debuted at number one in the UK and the US and was one of the world's top-ten best-selling albums of the year, while its lead single, [Sign of the Times](https://en.wikipedia.org/wiki/Sign_of_the_Times_(Harry_Styles_song)), topped the [UK Singles Chart](https://en.wikipedia.org/wiki/UK_Singles_Chart). Styles second album, [Fine Line](https://en.wikipedia.org/wiki/Fine_Line_(album)) (2019), debuted atop the US [Billboard 200](https://en.wikipedia.org/wiki/Billboard_200) with the biggest ever first-week sales by an English male artist, and was the most recent album to be included in [Rolling Stone](https://en.wikipedia.org/wiki/Rolling_Stone)*'s [500 Greatest Albums of All Time](https://en.wikipedia.org/wiki/Rolling_Stone%27s_500_Greatest_Albums_of_All_Time) in 2020. Its fourth single, [Watermelon Sugar](https://en.wikipedia.org/wiki/Watermelon_Sugar), topped the US *[Billboard* Hot 100](https://en.wikipedia.org/wiki/Billboard_Hot_100). Featuring the chart-topping single [As It Was](https://en.wikipedia.org/wiki/As_It_Was), Styles' third album, *[Harry's House](https://en.wikipedia.org/wiki/Harry%27s_House)* (2022), was widely acclaimed and broke several records. Throughout his career, Styles has received several [accolades](https://en.wikipedia.org/wiki/List_of_awards_and_nominations_received_by_Harry_Styles), including two [Brit Awards](https://en.wikipedia.org/wiki/Brit_Award), a [Grammy Award](https://en.wikipedia.org/wiki/Grammy_Award), an [Ivor Novello Award](https://en.wikipedia.org/wiki/Ivor_Novello_Award), and an [American Music Award](https://en.wikipedia.org/wiki/American_Music_Award). Styles made his acting debut in [Christopher Nolan](https://en.wikipedia.org/wiki/Christopher_Nolan)'s 2017 [war film](https://en.wikipedia.org/wiki/War_film) *[Dunkirk](https://en.wikipedia.org/wiki/Dunkirk_(2017_film))*. Aside from music and acting, he is known for his flamboyant fashion. He is the first man to appear solo on the cover of *[Vogue](https://en.wikipedia.org/wiki/Vogue_(magazine))");    
+    }
+    return 0;
+}
+int view_records()
+{
+    printf("inside");
+    Sleep(2000);
+    return 0;
+}
+void user_menu() 
+{
+    TC_CLRSCR();
+    TC_MOVE_CURSOR(0,0);
+    printf("Welcome to TYRBO, %s\n",s[curr_user].name);
+    printf("What would you like to do?\n\n"); //very informal
+    printf("\n1. Start Game\n2. View Archive\n3. User Settings \n4. View Gallery \n5. Credits\n6. Log Out\n7. Exit Application\n\n");
+    char choice[20];
+    fflush(stdin);
+    scanf("%[^\n]s",choice);
+    fflush(stdin);
+    if(!strcmp(choice,"1")||!strcmpi(choice,"play")||!strcmpi(choice,"start")||!strcmpi(choice,"game")||!strcmpi(choice,"start game")||!strcmpi(choice,"Play Game")||!strcmpi(choice,"Go"))
+    {
+        if(!game_menu())
+            user_menu();
+    }
+    else if(!strcmp(choice,"2")||!strcmpi(choice,"Archive")||!strcmpi(choice,"Viewarchive")||!strcmpi(choice,"view archive"))
+    {
+        if(!view_records())
+            user_menu();
+    }
+    else if(!strcmp(choice,"3")||!strcmpi(choice,"Usersettings")||!strcmpi(choice,"User settings")||!strcmpi(choice,"settings"))
+    {
+        if(!user_settings())
+            user_menu();
+    }
+    else if(!strcmp(choice,"4")||!strcmpi(choice,"ViewGallery")||!strcmpi(choice,"View Gallery")||!strcmpi(choice,"Gallery"))
+    {
+        TC_CLRSCR();
+        TC_MOVE_CURSOR(0,0);
+        printf("Upcoming");
+        Sleep(3000);
+        user_menu();
+    }
+    else if(!strcmp(choice,"5")||!strcmpi(choice,"Credits"))
+    {
+        TC_CLRSCR();
+        TC_MOVE_CURSOR(0,0);
+        printf("Upcoming");
+        Sleep(3000);
+        user_menu();
+    }
+    else if(!strcmp(choice,"6")||!strcmpi(choice,"logout")||!strcmpi(choice,"log out"))
+    {
+        TC_CLRSCR();
+        TC_MOVE_CURSOR(0,0);
+        printf("Logging Out..");
+        Sleep(1500);
+        TC_CLRSCR();
+        TC_MOVE_CURSOR(0,0);
+        menu_input(1);
+    }
+    else if(!strcmp(choice,"7")||!strcmpi(choice,"exit")||!strcmpi(choice,"exit application")||!strcmpi(choice,"exitapplication"))
+    {
+        TC_CLRSCR();
+        TC_MOVE_CURSOR(0,0);
+        printf("It was a pleasure serving you.\nHope to see you soon.\n");
+        Sleep(2000);
+        exit(0);
+    }
+    else
+    {
+        int n=printf("Invalid Choice. Try Again");
+        Sleep(1500);
+        user_menu();
+    }
+}
+
+int game_menu()
+{
+    TC_CLRSCR();
+    TC_MOVE_CURSOR(0,0);
+    printf("\nTYRBO GAMEMODES\n\nHELLO %s\nChoose a game mode :\n",s[curr_user].name);
+    printf("\n1. Normal Typing Test\n2. Sudden Death\n3. Basketball\n4. View Instructions \n5. Go Back\n\n"); //improve nomenclature
+    char choice[20];
+    fflush(stdin);
+    scanf("%[^\n]s",choice);
+    fflush(stdin);
+    if(!strcmp(choice,"1")||!strcmpi(choice,"Normal mode")||!strcmpi(choice,"Normalmode")||!strcmpi(choice,"Normal")||!strcmpi(choice,"Normal Typing Test"))
+    {
+        //call normal test function
+        //call difficulty level thing also
+        printf("Normal");
+        return 1;
+    }
+    else if(!strcmp(choice,"2")||!strcmpi(choice,"suddendeath")||!strcmpi(choice,"sudden death")||!strcmpi(choice,"play sudden death"))
+    {
+        //call sudden death function
+        printf("Sudden death");
+        return 1;
+    }
+    else if(!strcmp(choice,"3")||!strcmpi(choice,"Basketball")||!strcmpi(choice,"play basketball")||!strcmpi(choice,"BB")||!strcmpi(choice,"play BB"))
+    {
+        //call basketball function
+        printf("Basketball");
+        return 1;
+    }
+    else if(!strcmp(choice,"4")||!strcmpi(choice,"instructions")||!strcmpi(choice,"view instructions")||!strcmpi(choice,"viewinstructions"))
+    {
+        //View instructions
+        printf("Instructions");
+        return 1;
+    }
+    else if(!strcmp(choice,"5")||!strcmpi(choice,"goback")||!strcmpi(choice,"go back")||!strcmpi(choice,"back"))
+        return 0;
+    else
+    {
+        int n=printf("Invalid Choice. Try Again");
+        Sleep(1500);
+        return game_menu();
+    }
+}
+
+// metric scale for generating feedback wrt wpm
+char* feedback_generator(float metric)
+{
+    if(metric>50 && metric<=85)
+        return("Excellent, Your typing speed is par professional! ");
+    else if(metric>40 && metric<=50)
+        return("Great, Your typing speed is pretty commendable! ");
+    else if(metric>30 && metric<=40)
+        return("Average, Your typing speed is in tandem with the normal typing speed");
+    else if(metric>20 && metric<=30)
+        return("Poor, You must work on your typing speed and improve!");
+    else
+        return("\n Incorrect ");
 }

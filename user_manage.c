@@ -9,6 +9,7 @@
 #include <time.h>
 #include "user_manage.h" //includes the user_manage.h header file that contains the prototyes of the functions defined in this file
 FILE *fp;
+int curr_user;
 USER s[100];
 int n;
 int login()
@@ -66,9 +67,12 @@ int login()
                     return -1;
                 }
                 else if((!strcmpi("No",ch)||!strcmpi("2",ch)))
-                    return -1;
+                {
+                    return login();
+                }
+                else
+                    continue;
             }
-            getch();
         }
     }
     else
@@ -101,6 +105,7 @@ void display_users()
         printf("%10s\t\t%10s\n",s[i].name,s[i].usrn);
     printf("\n");
 }
+
 void signup()
 {
     TC_CLRSCR();
@@ -153,7 +158,6 @@ void signup()
                 i--;
                 continue;
             }
-            
             password1[i]=ch;
             i++;
             printf("*");
@@ -277,8 +281,7 @@ void forgot_pswrd(int no)
     else
     {
         printf("\nVerification Failed\n");
-        getch();
-        Sleep(1000);
+        Sleep(1300);
         TC_CLRSCR();
         TC_MOVE_CURSOR(0,0);
     }  
@@ -331,27 +334,140 @@ char* decrypt(char s[])
     return s;
 }
 
-
-// metric scale for generating feedback wrt wpm
-
-char* feedback_generator(float metric)
+void change_user_details()
 {
-    
-    if(metric>50 && metric<=85)
-        return("Excellent, Your typing speed is par professional! ");
-    else if(metric>40 && metric<=50)
-        return("Great, Your typing speed is pretty commendable! ");
-    else if(metric>30 && metric<=40)
-        return("Average, Your typing speed is in tandem with the normal typing speed");
-    else if(metric>20 && metric<=30)
-        return("Poor, You must work on your typing speed and improve!");
-    else
-        return("\n Incorrect ");
-    
-   
+    TC_CLRSCR();
+    TC_MOVE_CURSOR(0,0);
+    printf("CHANGE USER DETAILS\n");
+    printf("\n1. Change Name\n2. Change Security Question and Answer  \n3. Change email address  \n4. Reset Scores 5.Go Back\n");
+    char choice[20];
+    scanf("%[^\n]s",choice);
+ +  fflush(stdin);
+    if(!strcmp(choice,"1")||!strcmpi(choice,"change name"))
+    {
+
+    }
+    else if(!strcmp(choice,"2")||!strcmpi(choice,"change Security Question and Answer"))
+    {
+        //dodo
+    }
+    else if(!strcmp(choice,"3")||!strcmpi(choice,"change email address"))
+    {
+        //dodo
+    }
+    else if(!strcmp(choice,"4")||!strcmpi(choice,"Reset scores"))
+    {
+        printf("Upcoming");
+        Sleep(1500);
+    }
+    else if(!strcmp(choice,"5")||!strcmpi(choice,"Go Back"))
+        return;
 }
 
-// //menu of difficulty
+
+int user_settings()
+{
+    TC_CLRSCR();
+    TC_MOVE_CURSOR(0,0);
+    printf("USER SETTINGS\n\n");
+    printf("Welcome %s\n",s[curr_user].name);
+    printf("What changes would you like to make to your account?\n");
+    printf("\n1. Change Password\n2. Change Other User Details  \n3. Go Back  \n4. Delete This User\n\n");
+    char choice[20];
+    scanf("%[^\n]s",choice);
+    fflush(stdin);
+    if(!strcmp(choice,"1")||!strcmpi(choice,"changepassword")||!strcmpi(choice,"change password"))
+    {
+        forgot_pswrd(curr_user);
+        return user_settings();
+    }
+    else if(!strcmp(choice,"2")||!strcmpi(choice,"changeotheruserdetails")||!strcmpi(choice,"change other user details"))
+    {
+        change_user_details();
+        return user_settings();
+    }
+    else if(!strcmp(choice,"3")||!strcmpi(choice,"back")||!strcmpi(choice,"go back")||!strcmpi(choice,"goback"))
+    {
+        return 0;
+    }
+    else if(!strcmp(choice,"4")||!strcmpi(choice,"delete user")||!strcmpi(choice,"delete account"))
+    {
+        if(!delete_user())
+            return user_settings();
+        else 
+        {
+            Sleep(1000);
+            exit(0);
+        }
+    }
+    else
+    {
+        int n=printf("Invalid Choice. Try Again");
+        Sleep(1500);
+        return user_settings();
+    }
+}
+int count=0;
+int delete_user()
+{
+    TC_CLRSCR();
+    TC_MOVE_CURSOR(0,0);
+    printf("DELETE USER\n");
+    printf("\nEnter your password to carry on with this action.\n");
+    char password[20];
+    gets(password);
+    if(strcmp(password,s[curr_user].pswd)==0)
+    {
+        printf("\n\n%s , Are you SURE you want to delete your account?\nAre you sure you won't regret this decision?\n",s[curr_user].name);
+        printf("1. Yes,I'm sure.\n2. No,I have changed my mind.\n\n");
+        char choice[20];
+        scanf("%[^\n]s",choice);
+        fflush(stdin);
+        if(!strcmpi(choice,"1")||!strcmpi(choice,"Yes")||!strcmpi(choice,"Sure")||!strcmpi(choice,"Yes,I'm sure."))
+        {
+            for(int i=curr_user;i<n;i++)
+                s[i]=s[i+1];
+            s[n].email[0]='\0';
+            s[n].name[0]='\0';
+            s[n].pswd[0]='\0';
+            s[n].sa[0]='\0';
+            s[n].sq[0]='\0';
+            n--;
+            write();
+            printf("Your account has been successfuly deleted. It has been a pleasure serving you. May you succeed in life.");
+            return 1;
+        }
+        else if(!strcmpi(choice,"2")||!strcmpi(choice,"No")||!strcmpi(choice,"No,I have changed my mind."))
+        {
+            return 0;
+        }
+    }
+    else
+    {
+        int n=printf("Incorrect password entered. Try again");
+        count++;
+        if(count<2)
+        {
+            Sleep(1500);
+            return delete_user();
+        }
+        else
+        {
+            n+=printf("?\n1.Yes\n2. No , Go Back\n\n");
+            char ch[10];
+            gets(ch);
+            if(!strcmpi(ch,"1")||!strcmpi(ch,"Yes")||!strcmpi(ch,"Try again"))
+            {
+                Sleep(1500);
+                return delete_user();
+            }
+            else
+                return 0;
+        }
+    }
+}
+
+//menu of difficulty
 
 //     printf("Choose difficulty level by entering appropriate index number: \n 1. Easy \n 2.Intermediate \n 3. Difficult  ");
 //     scanf("%lf", &operation);

@@ -8,3 +8,12 @@ function implies different menus to be printed:
 void type_disp(char* ,int );//function to display text to be typed.Parameters:(string,size of string)
 void type_input(char*,int,int,int);//function that takes input from user to play the game and tracks right and wrong inputs.Parameters:(string,size of string,rows,columns)
 void score(float,int,int);//function to calculate the user score.Parameters:(time_taken,total characters input by user,size of string)
+int game_menu();
+void user_menu();
+int view_records();
+void score_save(int *,float *,float *,float *,float *);
+
+// metric scale
+char* feedback_generator(float);
+char* level(int);
+
