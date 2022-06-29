@@ -2,7 +2,7 @@
 #define TC_M
 #include<windows.h>
 int termsize(int *rows,int *columns);
-
+void coord_details(int *rows,int *columns,int *x,int *y,int size);
 #define TC_NRM "\x1B[0m"
 #define TC_RED "\x1B[1;31m"
 #define TC_GRN "\x1B[1;32m"

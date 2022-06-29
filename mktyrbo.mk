@@ -1,5 +1,5 @@
 Tyrbo.exe:type_content.o client.o user_manage.o tc.o
-	gcc type_content.o client.o user_manage.o tc.o -o Tyrbo.exe
+	gcc tc.o type_content.o client.o user_manage.o -o Tyrbo.exe
 user_manage.o: user_manage.c
 	gcc -c user_manage.c
 type_content.o: type_content.c
