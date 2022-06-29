@@ -456,7 +456,7 @@ void change_user_details()
         {
             TC_CLRSCR();
             TC_MOVE_CURSOR(0,0);
-            printf("FUNCTIONALITY YET TO BE ADDED.");
+            printf("RESET SCORES TO ZERO .\n\nFUNCTIONALITY YET TO BE ADDED.");
             Sleep(1500);
             change_user_details();
         }

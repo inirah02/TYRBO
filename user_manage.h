@@ -60,14 +60,15 @@ char* decrypt(char []);
 */
 void display_users();
 
-/* Allows User to manage his/her account.
+/*   Allows User to manage his/her account.
 */
 int user_settings();
 
-/* Allows User to delete his/her account.
+/*   Allows User to delete his/her account on password verification.
 */
 int delete_user();
 
-/* Allows User to change details of his/her account.
+/*  Allows User to change details of his/her account and 
+    subsequently makes changes to csv file and array.
 */
 void change_user_details();
