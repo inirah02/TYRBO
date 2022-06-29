@@ -16,7 +16,7 @@ int menu_input(int n)//function that prints the various menus to be used through
     switch(n)
     {
         case 1://prints login/signup page
-            menu_type("Wait a minute... Do I know you?\n1)Yes\n2)No\n");//this function prints information on screen in a typing like simulation
+            menu_type("Wait a minute... Do I know you?\n1)Yes\n2)No\n\n3)Exit Application\n\n");//this function prints information on screen in a typing like simulation
             scanf("%s",tmp);
             fflush(stdin);
             openfile_user(); //opens CSV file and stores user data into array of structures.
@@ -36,6 +36,8 @@ int menu_input(int n)//function that prints the various menus to be used through
                 signup(); //User defined function to accept new user and store their details in CSV file
                 menu_input(1);
             }
+            else if(!strcmpi("3",tmp)||!strcmpi("Exit Application",tmp))
+                exit(0);
     }
     return 0;
 }
@@ -204,6 +206,7 @@ void score_save(int *mode,float *wpm,float *acc,float *netwpm,float *time_taken)
 {
     //dodo
 }
+
 char* level(int operation)
 {
     switch(operation)
@@ -221,9 +224,10 @@ char* level(int operation)
     }
     return 0;
 }
+
 int view_records()
 {
-    printf("inside");
+    printf("Inside view_records");
     Sleep(2000);
     return 0;
 }
@@ -300,43 +304,105 @@ int game_menu()
     TC_CLRSCR();
     TC_MOVE_CURSOR(0,0);
     printf("\nTYRBO GAMEMODES\n\nHELLO %s\nChoose a game mode :\n",s[curr_user].name);
-    printf("\n1. Normal Typing Test\n2. Sudden Death\n3. Basketball\n4. View Instructions \n5. Go Back\n\n"); //improve nomenclature
+    printf("\n1. Normal Typing Test\n2. Sudden Death\n3. Basketball\n4. Help \n5. Go Back\n\n"); //improve nomenclature
     char choice[20];
     fflush(stdin);
     scanf("%[^\n]s",choice);
     fflush(stdin);
-    if(!strcmp(choice,"1")||!strcmpi(choice,"Normal mode")||!strcmpi(choice,"Normalmode")||!strcmpi(choice,"Normal")||!strcmpi(choice,"Normal Typing Test"))
+    if(!strcmp(choice,"1")||!strcmpi(choice,"Normal mode")||!strcmpi(choice,"Normal")||!strcmpi(choice,"Normal Typing Test"))
     {
         //call normal test function
         //call difficulty level thing also
-        printf("Normal");
+        game_mode(1);
         return 1;
     }
     else if(!strcmp(choice,"2")||!strcmpi(choice,"suddendeath")||!strcmpi(choice,"sudden death")||!strcmpi(choice,"play sudden death"))
     {
-        //call sudden death function
-        printf("Sudden death");
+        game_mode(2);
         return 1;
     }
     else if(!strcmp(choice,"3")||!strcmpi(choice,"Basketball")||!strcmpi(choice,"play basketball")||!strcmpi(choice,"BB")||!strcmpi(choice,"play BB"))
     {
-        //call basketball function
-        printf("Basketball");
+        game_mode(3);
         return 1;
     }
-    else if(!strcmp(choice,"4")||!strcmpi(choice,"instructions")||!strcmpi(choice,"view instructions")||!strcmpi(choice,"viewinstructions"))
+    else if(!strcmp(choice,"4")||!strcmpi(choice,"help"))
     {
         //View instructions
-        printf("Instructions");
+        printf("Print Instructions Here");
+        Sleep(2000);
         return 1;
     }
     else if(!strcmp(choice,"5")||!strcmpi(choice,"goback")||!strcmpi(choice,"go back")||!strcmpi(choice,"back"))
         return 0;
     else
     {
-        int n=printf("Invalid Choice. Try Again");
+        printf("Invalid Choice. Try Again");
         Sleep(1500);
         return game_menu();
+    }
+}
+void game_mode(int mode)
+{
+    TC_CLRSCR();
+    TC_MOVE_CURSOR(0,0);
+    if(mode==1)
+        printf("TYPING TEST\n\n");
+    if(mode==2)
+        printf("SUDDEN DEATH\n\n");
+    if(mode==3)
+        printf("BASKETBALL\n\n");
+    printf("1. Start Game\n2. Instructions\n3. Go Back\n\n");
+    char choice[20];
+    fflush(stdin);
+    scanf("%[^\n]s",choice);
+    fflush(stdin);
+    if(!strcmp(choice,"1")||!strcmpi(choice,"start")||!strcmpi(choice,"start game")||!strcmpi(choice,"play"))
+    {
+        /*for(int i=0;i<50;i++)
+        {
+            printf("\b \b");
+        }
+        */
+        char *s;
+        if(!(mode==3))
+        {
+            int flag;
+            do
+            {
+                flag=0;
+                printf("Choose Difficulty Level : \n1. Easy\n2. Moderate\n3. Hard\n\n"); //string fetched on the basis of difficulty level chosen by the player
+                char choice[20];
+                fflush(stdin);
+                scanf("%[^\n]s",choice);
+                fflush(stdin);
+                if(!strcmp(choice,"1")||!strcmpi(choice,"Easy"))
+                    s=level(1);
+                else if(!strcmp(choice,"2")||!strcmpi(choice,"Moderate"))
+                    s=level(2);
+                else if(!strcmp(choice,"3")||!strcmpi(choice,"Hard"))
+                    s=level(3);
+                else
+                {
+                    printf("Invalid Choice.");
+                    flag=1;
+                }
+            } while(flag);
+        }
+        //call function which starts the game
+    }
+    else if(!strcmp(choice,"2")||!strcmpi(choice,"instructions"))
+    {
+        print_instructions(mode);
+        game_mode(mode);
+    }
+    else if(!strcmp(choice,"3")||!strcmpi(choice,"go back")||!strcmpi(choice,"back"))
+        game_menu();
+    else
+    {
+        printf("Invalid Choice.");
+        Sleep(1500);
+        return game_mode(mode);
     }
 }
 
@@ -344,7 +410,7 @@ int game_menu()
 char* feedback_generator(float metric)
 {
     if(metric>50 && metric<=85)
-        return("Excellent, Your typing speed is par professional! ");
+        return ("Excellent, Your typing speed is par professional! ");
     else if(metric>40 && metric<=50)
         return("Great, Your typing speed is pretty commendable! ");
     else if(metric>30 && metric<=40)
@@ -353,4 +419,20 @@ char* feedback_generator(float metric)
         return("Poor, You must work on your typing speed and improve!");
     else
         return("\n Incorrect ");
+}
+
+void print_instructions(int mode)
+{
+    TC_CLRSCR();
+    TC_MOVE_CURSOR(0,0);
+    if(mode==1)
+        printf("INSTRUCTIONS TO BE ADDED");
+    else if(mode==2)
+        printf("INSTRUCTIONS TO BE ADDED");
+    else
+        printf("INSTRUCTIONS TO BE ADDED");
+    printf("\n\nPress B to Go back ");
+    while(1)
+        if(getch()=='B')
+            break;
 }

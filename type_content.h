@@ -8,12 +8,31 @@ function implies different menus to be printed:
 void type_disp(char* ,int );//function to display text to be typed.Parameters:(string,size of string)
 void type_input(char*,int,int,int);//function that takes input from user to play the game and tracks right and wrong inputs.Parameters:(string,size of string,rows,columns)
 void score(float,int,int);//function to calculate the user score.Parameters:(time_taken,total characters input by user,size of string)
+
+/*  Displays Available game modes and allows user to 
+    take necessary action.
+*/
 int game_menu();
+
+/*  Provides user with set of options such as to begin playing
+    , change settings , exit application etc.
+*/
 void user_menu();
+/*  Allows user to view previous records.
+*/
 int view_records();
+
+/*  Saves score of user into structure for future access after game ends */
 void score_save(int *,float *,float *,float *,float *);
 
-// metric scale
+// metric scale for generating feedback wrt wpm
 char* feedback_generator(float);
+
 char* level(int);
 
+/*  Prints instructions of corresponding game mode.
+*/
+void print_instructions(int mode);
+
+/*  Enters game mode passed as argument */
+void game_mode(int mode);

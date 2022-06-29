@@ -8,15 +8,23 @@ typedef struct user
     char sq[100];
     char sa[100];
 }USER;
+
+/* Array of structures storing user details.
+*/
 extern USER s[100];
+
+/* Stores array index corresponding to current user on successful login.
+*/
 extern int curr_user;
+
 /*  User defined function to access user details from the CSV file and log them in
     Returns array index associated with the user on successful login.
     Returns -1 if login is unsuccessful.
 */
 int login();
 
-//User defined function to accept new user and store their details in CSV file
+/*User defined function to accept new user and store their details in CSV file
+*/
 void signup();
 
 int search_u(char []);
@@ -52,6 +60,14 @@ char* decrypt(char []);
 */
 void display_users();
 
+/* Allows User to manage his/her account.
+*/
 int user_settings();
+
+/* Allows User to delete his/her account.
+*/
 int delete_user();
+
+/* Allows User to change details of his/her account.
+*/
 void change_user_details();
