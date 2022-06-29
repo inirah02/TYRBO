@@ -5,6 +5,6 @@
 int main()
 {
     print_menu();//calls function from type_content.h to print the Landing Page
-    type_disp("Wikipedia is a multilingual free online ",40);
+    type_disp("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa Wikipedia is a multilingual free online ",159,'n');
     return 0;
 }

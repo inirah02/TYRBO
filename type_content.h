@@ -5,6 +5,10 @@ void menu_del(int);//function to clear information from terminal in a typing lik
 int menu_input(int);/*function that prints the various menus to be used throughout the program. Different codes passed to this
 function implies different menus to be printed:
 1)Login/Signup Page*/
-void type_disp(char* ,int );//function to display text to be typed.Parameters:(string,size of string)
-void type_input(char*,int,int,int);//function that takes input from user to play the game and tracks right and wrong inputs.Parameters:(string,size of string,rows,columns)
-void score(float,int,int);//function to calculate the user score.Parameters:(time_taken,total characters input by user,size of string)
+int type_disp(char* ,int,char);//function to display text to be typed.Parameters:(string,size of string)
+int type_input(char*,int,char);//function that takes input from user to play the game and tracks right and wrong inputs.Parameters:(string,size of string,rows,columns)
+void trimTrailing(char * str);
+void score(float,int,int,char,int);//function to calculate the user score.Parameters:(time_taken,total characters input by user,size of string)
+int handle_wrong_case(FILE* fp,int* b,int* streak,int* count,char* p,int x,int y,int color);
+void art_disp( char*);
+int bball_dunk();
