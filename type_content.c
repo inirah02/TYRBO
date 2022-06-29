@@ -198,8 +198,7 @@ void score(float time_taken,int count,int size)
     }
     printf("%.1f%c%s",acc,'%',TC_NRM);
     getch();
-    int mode; //Just for now to avoid error
-    score_save(&mode,&wpm,&acc,&netwpm,&time_taken);
+    //score_save(&wpm,&acc,&netwpm,&time_taken);
 }
 
 void score_save(int *mode,float *wpm,float *acc,float *netwpm,float *time_taken)
