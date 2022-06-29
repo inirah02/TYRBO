@@ -12,3 +12,31 @@ void score(float,int,int,char,int);//function to calculate the user score.Parame
 int handle_wrong_case(FILE* fp,int* b,int* streak,int* count,char* p,int x,int y,int color);
 void art_disp( char*);
 int bball_dunk();
+
+/*  Displays Available game modes and allows user to 
+    take necessary action.
+*/
+int game_menu();
+
+/*  Provides user with set of options such as to begin playing
+    , change settings , exit application etc.
+*/
+void user_menu();
+/*  Allows user to view previous records.
+*/
+int view_records();
+
+/*  Saves score of user into structure for future access after game ends */
+void score_save(int *,float *,float *,float *,float *);
+
+// metric scale for generating feedback wrt wpm
+char* feedback_generator(float);
+
+char* level(int);
+
+/*  Prints instructions of corresponding game mode.
+*/
+void print_instructions(int mode);
+
+/*  Enters game mode passed as argument */
+void game_mode(int mode);

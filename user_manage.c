@@ -9,6 +9,7 @@
 #include <time.h>
 #include "user_manage.h" //includes the user_manage.h header file that contains the prototyes of the functions defined in this file
 FILE *fp;
+int curr_user;
 USER s[100];
 int n;
 int login()
@@ -66,9 +67,12 @@ int login()
                     return -1;
                 }
                 else if((!strcmpi("No",ch)||!strcmpi("2",ch)))
-                    return -1;
+                {
+                    return login();
+                }
+                else
+                    continue;
             }
-            getch();
         }
     }
     else
@@ -101,6 +105,7 @@ void display_users()
         printf("%10s\t\t%10s\n",s[i].name,s[i].usrn);
     printf("\n");
 }
+
 void signup()
 {
     TC_CLRSCR();
@@ -153,7 +158,6 @@ void signup()
                 i--;
                 continue;
             }
-            
             password1[i]=ch;
             i++;
             printf("*");
@@ -173,9 +177,12 @@ void signup()
     char name[100];
     char sq[100];
     char sa[100];
+    char email[100];
     printf("\nEnter your name: ");
     //scanf("%s",name);
     gets(name);
+    printf("\nEnter your email address: ");
+    gets(email);
     printf("\nEnter security question: ");
     gets(sq);
     printf("\nEnter answer to security question: ");
@@ -183,6 +190,7 @@ void signup()
     strcpy(s[n].pswd,password);
     strcpy(s[n].name,name);
     strcpy(s[n].usrn,username);
+    strcpy(s[n].email,email);
     strcpy(s[n].sq,sq);
     strcpy(s[n].sa,sa);
     printf("\nNew user created successfully!");
@@ -277,8 +285,7 @@ void forgot_pswrd(int no)
     else
     {
         printf("\nVerification Failed\n");
-        getch();
-        Sleep(1000);
+        Sleep(1300);
         TC_CLRSCR();
         TC_MOVE_CURSOR(0,0);
     }  
@@ -331,47 +338,242 @@ char* decrypt(char s[])
     return s;
 }
 
-
-// metric scale for generating feedback wrt wpm
-
-char* feedback_generator(float metric)
+void change_user_details()
 {
-    
-    if(metric>50 && metric<=85)
-        return("Excellent, Your typing speed is par professional! ");
-    else if(metric>40 && metric<=50)
-        return("Great, Your typing speed is pretty commendable! ");
-    else if(metric>30 && metric<=40)
-        return("Average, Your typing speed is in tandem with the normal typing speed");
-    else if(metric>20 && metric<=30)
-        return("Poor, You must work on your typing speed and improve!");
-    else
-        return("\n Incorrect ");
-    
-   
+    TC_CLRSCR();
+    TC_MOVE_CURSOR(0,0);
+    printf("CHANGE USER DETAILS\n");
+    printf("\n1. Change Name\n2. Change Security Question and Answer  \n3. Change email address  \n4. Reset Scores\n5. Go Back\n\n");
+    char choice[20];
+    fflush(stdin);
+    scanf("%[^\n]s",choice);
+ +  fflush(stdin);
+    if(!(!strcmp(choice,"5")||!strcmpi(choice,"Go Back")))
+    {
+        if(!strcmp(choice,"1")||!strcmpi(choice,"change name"))
+        {
+            TC_CLRSCR();
+            TC_MOVE_CURSOR(0,0);
+            int flag=0;
+            do
+            {
+                flag=0;
+                printf("Current Name : %s", s[curr_user].name);
+                printf("\nDo you want to change your Name?\n1. Yes\n2. No\n\n");
+                char ch[10];
+                gets(ch);
+                strlen(ch);
+                if((!strcmpi("Yes",ch))||(!strcmpi("1",ch)))
+                {
+                    printf("\n Enter New Name : ");
+                    gets(s[curr_user].name);
+                    printf("\n Your Name has been updated successfully.\n");
+                    Sleep(1500);
+                    change_user_details();
+                }
+                else if((!strcmpi("No",ch))||(!strcmpi("2",ch)))
+                    change_user_details();
+                else
+                {
+                    printf("Invalid choice.");
+                    Sleep(1300);
+                    TC_CLRSCR();
+                    TC_MOVE_CURSOR(0,0);
+                    flag=1;
+                }
+            }
+            while(flag==1);
+        }
+        else if(!strcmp(choice,"2")||!strcmpi(choice,"change Security Question and Answer"))
+        {
+            TC_CLRSCR();
+            TC_MOVE_CURSOR(0,0);
+            int flag=0;
+            do
+            {
+                flag=0;
+                printf("Current Security Question And Answer :\n Security Question : %s  \n Security Answer : %s\n", s[curr_user].sq,s[curr_user].sa);
+                printf("\nDo you want to change your Verification Details?\n1. Yes\n2. No\n\n");
+                char ch[10];
+                gets(ch);
+                strlen(ch);
+                if((!strcmpi("Yes",ch))||(!strcmpi("1",ch)))
+                {
+                    printf("\n Enter New Security Question : ");
+                    gets(s[curr_user].sq);
+                    printf("\n Enter Answer : ");
+                    gets(s[curr_user].sa);
+                    printf("\n Your Verification Details have been updated successfully.\n");
+                    Sleep(1500);
+                    change_user_details();
+                }
+                else if((!strcmpi("No",ch))||(!strcmpi("2",ch)))
+                    change_user_details();
+                else
+                {
+                    printf("Invalid choice.");
+                    TC_CLRSCR();
+                    TC_MOVE_CURSOR(0,0);
+                    flag=1;
+                }
+            }
+            while(flag==1);
+        }
+        else if(!strcmp(choice,"3")||!strcmpi(choice,"change email address"))
+        {
+            TC_CLRSCR();
+            TC_MOVE_CURSOR(0,0);
+            int flag=0;
+            do
+            {
+                flag=0;
+                printf("Current Email Address : %s", s[curr_user].email);
+                printf("\nDo you want to change your email address?\n1. Yes\n2. No\n\n");
+                char ch[10];
+                gets(ch);
+                strlen(ch);
+                if((!strcmpi("Yes",ch))||(!strcmpi("1",ch)))
+                {
+                    printf("\n Enter New Email Address : ");
+                    gets(s[curr_user].email);
+                    printf("\n Your Email Address has been changed successfully.\n");
+                    Sleep(1500);
+                    change_user_details();
+                }
+                else if((!strcmpi("No",ch))||(!strcmpi("2",ch)))
+                    change_user_details();
+                else
+                {
+                    printf("Invalid choice.");
+                    TC_CLRSCR();
+                    TC_MOVE_CURSOR(0,0);
+                    flag=1;
+                }
+            }
+            while(flag==1);
+        }
+        else if(!strcmp(choice,"4")||!strcmpi(choice,"Reset scores"))
+        {
+            TC_CLRSCR();
+            TC_MOVE_CURSOR(0,0);
+            printf("RESET SCORES TO ZERO .\n\nFUNCTIONALITY YET TO BE ADDED.");
+            Sleep(1500);
+            change_user_details();
+        }
+        write();
+    }
 }
-
-// //menu of difficulty
-
-//     printf("Choose difficulty level by entering appropriate index number: \n 1. Easy \n 2.Intermediate \n 3. Difficult  ");
-//     scanf("%lf", &operation);
-
-// char* level(int operation);
-//     switch(operation)
-//     {
-//         case 1:
-//             return("harry edward styles is an english singer songwriter and actor his musical career began as a solo contestant on the british music competition series the x factor following his elimination he was brought back to join the boy band one direction which went on to become one of the best selling boy bands of all time before going on an indefinite hiatus" );
-//             break;
-
-//         case 2:
-//             return("harry edward styles is an english singer songwriter and actor his musical career began as a solo contestant on the british music competition series the x factor following his elimination he was brought back to join the boy band one direction which went on to become one of the best selling boy bands of all time before going on an indefinite hiatus. Styles released his self-titled debut solo album through Columbia Records in 2017. It debuted at number one in the UK and the US and was one of the world's top-ten best-selling albums of the year, while its lead single, Sign of the Times, topped the UK Singles Chart. Styles second album, Fine Line (2019), debuted atop the US Billboard 200 with the biggest ever first-week sales by an English male artist, and was the most recent album to be included in Rolling Stone's 500 Greatest Albums of All Time in 2020. Its fourth single, Watermelon Sugar, topped the US Billboard Hot 100. Featuring the chart-topping single As It Was, Styles third album, Harry's House (2022) was widely acclaimed and broke several records" );
-//             break;
-
-//         case 3:
-//             return("Harry Edward Styles (born 1 February 1994) is an English singer, songwriter and actor. His musical career began in 2010 as a solo contestant on the British music competition series *[The X Factor](https://en.wikipedia.org/wiki/The_X_Factor_(UK_TV_series))*. Following his elimination, he was brought back to join the boy band [One Direction](https://en.wikipedia.org/wiki/One_Direction), which went on to become one of the [best-selling boy bands](https://en.wikipedia.org/wiki/Boy_band#Best-selling_boy_bands) of all time before going on an indefinite hiatus in 2016. Styles released his [self-titled debut solo album](https://en.wikipedia.org/wiki/Harry_Styles_(album)) through [Columbia Records](https://en.wikipedia.org/wiki/Columbia_Records) in 2017. It debuted at number one in the UK and the US and was one of the world's top-ten best-selling albums of the year, while its lead single, [Sign of the Times](https://en.wikipedia.org/wiki/Sign_of_the_Times_(Harry_Styles_song)), topped the [UK Singles Chart](https://en.wikipedia.org/wiki/UK_Singles_Chart). Styles second album, [Fine Line](https://en.wikipedia.org/wiki/Fine_Line_(album)) (2019), debuted atop the US [Billboard 200](https://en.wikipedia.org/wiki/Billboard_200) with the biggest ever first-week sales by an English male artist, and was the most recent album to be included in [Rolling Stone](https://en.wikipedia.org/wiki/Rolling_Stone)*'s [500 Greatest Albums of All Time](https://en.wikipedia.org/wiki/Rolling_Stone%27s_500_Greatest_Albums_of_All_Time) in 2020. Its fourth single, [Watermelon Sugar](https://en.wikipedia.org/wiki/Watermelon_Sugar), topped the US *[Billboard* Hot 100](https://en.wikipedia.org/wiki/Billboard_Hot_100). Featuring the chart-topping single [As It Was](https://en.wikipedia.org/wiki/As_It_Was), Styles' third album, *[Harry's House](https://en.wikipedia.org/wiki/Harry%27s_House)* (2022), was widely acclaimed and broke several records. Throughout his career, Styles has received several [accolades](https://en.wikipedia.org/wiki/List_of_awards_and_nominations_received_by_Harry_Styles), including two [Brit Awards](https://en.wikipedia.org/wiki/Brit_Award), a [Grammy Award](https://en.wikipedia.org/wiki/Grammy_Award), an [Ivor Novello Award](https://en.wikipedia.org/wiki/Ivor_Novello_Award), and an [American Music Award](https://en.wikipedia.org/wiki/American_Music_Award). Styles made his acting debut in [Christopher Nolan](https://en.wikipedia.org/wiki/Christopher_Nolan)'s 2017 [war film](https://en.wikipedia.org/wiki/War_film) *[Dunkirk](https://en.wikipedia.org/wiki/Dunkirk_(2017_film))*. Aside from music and acting, he is known for his flamboyant fashion. He is the first man to appear solo on the cover of *[Vogue](https://en.wikipedia.org/wiki/Vogue_(magazine))");
-         
-//     }
-
-//     return 0;
-// }
-
+int user_settings()
+{
+    TC_CLRSCR();
+    TC_MOVE_CURSOR(0,0);
+    printf("USER SETTINGS\n\n");
+    printf("Welcome %s\n",s[curr_user].name);
+    printf("What changes would you like to make to your account?\n");
+    printf("\n1. View User Details\n2. Change Password\n3. Change Other User Details  \n4. Go Back  \n5. Delete This User\n\n");
+    char choice[20];
+    scanf("%[^\n]s",choice);
+    fflush(stdin);
+    if(!strcmp(choice,"1")||!strcmpi(choice,"View User Details"))
+    {
+        TC_CLRSCR();
+        TC_MOVE_CURSOR(0,0);
+        printf("Your Details :\n\n");
+        printf("NAME : %s",s[curr_user].name);
+        printf("\nUSERNAME : %s",s[curr_user].usrn);
+        printf("\nEMAIL ADDRESS : %s",s[curr_user].email);
+        printf("\n\nPress B to Go Back. ");
+        while(1)
+            if(getch()=='B')
+                return user_settings();
+    }
+    else if(!strcmp(choice,"2")||!strcmpi(choice,"changepassword")||!strcmpi(choice,"change password"))
+    {
+        forgot_pswrd(curr_user);
+        return user_settings();
+    }
+    else if(!strcmp(choice,"3")||!strcmpi(choice,"changeotheruserdetails")||!strcmpi(choice,"change other user details"))
+    {
+        change_user_details();
+        return user_settings();
+    }
+    else if(!strcmp(choice,"4")||!strcmpi(choice,"back")||!strcmpi(choice,"go back")||!strcmpi(choice,"goback"))
+    {
+        return 0;
+    }
+    else if(!strcmp(choice,"5")||!strcmpi(choice,"delete user")||!strcmpi(choice,"delete account"))
+    {
+        if(!delete_user())
+            return user_settings();
+        else 
+        {
+            Sleep(1000);
+            exit(0);
+        }
+    }
+    else
+    {
+        int n=printf("Invalid Choice. Try Again");
+        Sleep(1500);
+        return user_settings();
+    }
+}
+int count=0;
+int delete_user()
+{
+    TC_CLRSCR();
+    TC_MOVE_CURSOR(0,0);
+    printf("DELETE USER\n");
+    printf("\nEnter your password to carry on with this action.\n");
+    char password[20];
+    gets(password);
+    if(strcmp(password,s[curr_user].pswd)==0)
+    {
+        printf("\n\n%s , Are you SURE you want to delete your account?\nAre you sure you won't regret this decision?\n",s[curr_user].name);
+        printf("1. Yes,I'm sure.\n2. No,I have changed my mind.\n\n");
+        char choice[20];
+        scanf("%[^\n]s",choice);
+        fflush(stdin);
+        if(!strcmpi(choice,"1")||!strcmpi(choice,"Yes")||!strcmpi(choice,"Sure")||!strcmpi(choice,"Yes,I'm sure."))
+        {
+            for(int i=curr_user;i<n;i++)
+                s[i]=s[i+1];
+            s[n].email[0]='\0';
+            s[n].name[0]='\0';
+            s[n].pswd[0]='\0';
+            s[n].sa[0]='\0';
+            s[n].sq[0]='\0';
+            n--;
+            write();
+            printf("Your account has been successfuly deleted. It has been a pleasure serving you. May you succeed in life.");
+            return 1;
+        }
+        else if(!strcmpi(choice,"2")||!strcmpi(choice,"No")||!strcmpi(choice,"No,I have changed my mind."))
+        {
+            return 0;
+        }
+    }
+    else
+    {
+        int n=printf("Incorrect password entered. Try again");
+        count++;
+        if(count<2)
+        {
+            Sleep(1500);
+            return delete_user();
+        }
+        else
+        {
+            n+=printf("?\n1.Yes\n2. No , Go Back\n\n");
+            char ch[10];
+            gets(ch);
+            if(!strcmpi(ch,"1")||!strcmpi(ch,"Yes")||!strcmpi(ch,"Try again"))
+            {
+                Sleep(1500);
+                return delete_user();
+            }
+            else
+                return 0;
+        }
+    }
+}
