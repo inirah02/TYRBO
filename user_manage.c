@@ -308,7 +308,7 @@ int s_init()
 }
 void write()
 {
-    fp=fopen("userdetails.csv","w");
+    fp=fopen("resources/userdetails.csv","w");
     fprintf(fp,"Username,Password,Name,SecurityQuestion,SecurityAnswer\n");
     int i;
     for(i=0;i<n;i++)
@@ -317,7 +317,7 @@ void write()
 }
 void openfile_user()
 {
-    fp=fopen("userdetails.csv","r");
+    fp=fopen("resources/userdetails.csv","r");
     n=s_init(fp);
     fclose(fp);
 }
