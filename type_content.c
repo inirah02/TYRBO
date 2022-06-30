@@ -368,15 +368,15 @@ char* level(int operation)
     switch(operation)
     {
         case 1:
-            return("harry edward styles is an english singer songwriter and actor his musical career began as a solo contestant on the british music competition series the x factor following his elimination he was brought back to join the boy band one direction which went on to become one of the best selling boy bands of all time before going on an indefinite hiatus " );
+            return("github inc is a provider of internet hosting for software development and version control using git which is an extremely useful tool for developers "  );
             break;
 
         case 2:
-            return("harry eDward styles is an engLish singer songwriter And actoR his musical caReer began as a SoLo contestant on the british music competition series the x factor following his elimination he was brought back to join tHe boy band One direction whiCh went on to becOme one of the best selling boy bands of all time before going on an indefinite hiatus " );
+            return("The formula one series originated with Grand Prix Motor Racing. It consists of a set of rules that all participants' cars must meet. Each driver must hold a valid Super Licence, the highest class of racing license issued by the FIA. " );
             break;
 
         case 3:
-            return("Harry Edward Styles (born 1 February 1994) is an English singer, songwriter and actor. His musical career began in 2010 as a solo contestant on the British music competition series *[The X Factor](https://en.wikipedia.org/wiki/The_X_Factor_(UK_TV_series))*. Following his elimination, he was brought back to join the boy band [One Direction] Styles released his [self-titled debut solo album](https://en.wikipedia.org/wiki/Harry_Styles_(album)) through [Columbia Records] " );    
+            return("Harry eDwArd Styles is an EnGlish sInger soNgwRiter and actOr his musical career began as a solo contestant on the brItish muSic coMpetiTion seRies the x fActor. Aside frOm music and acting, he is knOwn for his flamboyant fashion. " );    
     }
     return 0;
 }
