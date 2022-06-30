@@ -263,7 +263,10 @@ void score(float time_taken,int count,int size,char gmode,int BBscore)
         printf("\nYour Score was: %s%d%s",TC_GRN,BBscore,TC_NRM);
         score_save(2,&wpm,&acc,&netwpm,BBscore);
     }
+    printf("\n%sPress any key to continue%s",TC_YEL,TC_NRM);
+    Sleep(1500);
     getch();
+    user_menu();
 }
 void trimTrailing(char * str)
 {
@@ -396,7 +399,7 @@ void open_scorefile()
     strcat(f_name,".txt");
     char f_name1[100];
     f_name1[0]='\0';
-    strcat(f_name1,"resources/");
+    strcat(f_name1,"resources/score/");
     strcat(f_name1,f_name);
     score_fp=fopen(f_name1,"r");
     score_n=score_init();
@@ -411,7 +414,7 @@ int write_score(int gmode,float *wpm,float *acc,float *net_wpm, int BBscore)
     strcat(f_name,".txt");
     char f_name1[100];
     f_name1[0]='\0';
-    strcat(f_name1,"resources/");
+    strcat(f_name1,"resources/score/");
     strcat(f_name1,f_name);
     score_fp=fopen(f_name1,"a");
 	fprintf(score_fp,"%s,%s,%f,%f,%f,%d,%d\n",__DATE__,__TIME__,*wpm,*acc,*net_wpm,gmode,BBscore);
@@ -493,8 +496,7 @@ void user_menu()
     {
         TC_CLRSCR();
         TC_MOVE_CURSOR(0,0);
-        printf("It was a pleasure serving you.\nHope to see you soon.\n");
-        Sleep(2000);
+        waterfall();
         exit(0);
     }
     else
@@ -667,6 +669,7 @@ void caps_check()
 }
 void waterfall()
 {
+    printf("\e[?25l");
     FILE *fp=fopen("resources/art/TYRBO.txt","r");
     char ch[200];
     TC_CLRSCR();
@@ -678,4 +681,6 @@ void waterfall()
         Sleep(36);
     }
     fclose(fp);
+    TC_CLRSCR();
+    TC_MOVE_CURSOR(0,0);
 }
