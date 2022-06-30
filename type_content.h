@@ -13,7 +13,6 @@ int handle_wrong_case(FILE* fp,int* b,int* streak,int* count,char* p,int x,int y
 void art_disp( char*);
 void caps_check();
 int bball_dunk();
-int rows,columns;
 /*  Displays Available game modes and allows user to 
     take necessary action.
 */
