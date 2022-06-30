@@ -352,15 +352,15 @@ char* level(int operation)
     switch(operation)
     {
         case 1:
-            return("harry edward styles is an english singer songwriter and actor his musical career began as a solo contestant on the british music competition series the x factor following his elimination he was brought back to join the boy band one direction which went on to become one of the best selling boy bands of all time before going on an indefinite hiatus" );
+            return("harry edward styles is an english singer songwriter and actor his musical career began as a solo contestant on the british music competition series the x factor following his elimination he was brought back to join the boy band one direction which went on to become one of the best selling boy bands of all time before going on an indefinite hiatus " );
             break;
 
         case 2:
-            return("harry edward styles is an english singer songwriter and actor his musical career began as a solo contestant on the british music competition series the x factor following his elimination he was brought back to join the boy band one direction which went on to become one of the best selling boy bands of all time before going on an indefinite hiatus. While its lead single, Sign of the Times, topped the UK Singles Chart. Styles second album, Fine Line (2019), debuted atop the US Billboard 200 with the biggest ever first-week sales by an English male artist, and was the most recent album to be included in Rolling Stone's 500 Greatest Albums of All Time in 2020. Its fourth single, Watermelon Sugar, topped the US Billboard Hot 100. Featuring the chart-topping single As It Was, Styles third album, Harry's House (2022) was widely acclaimed and broke several records" );
+            return("harry eDward styles is an engLish singer songwriter And actoR his musical caReer began as a SoLo contestant on the british music competition series the x factor following his elimination he was brought back to join tHe boy band One direction whiCh went on to becOme one of the best selling boy bands of all time before going on an indefinite hiatus " );
             break;
 
         case 3:
-            return("Harry Edward Styles (born 1 February 1994) is an English singer, songwriter and actor. His musical career began in 2010 as a solo contestant on the British music competition series *[The X Factor](https://en.wikipedia.org/wiki/The_X_Factor_(UK_TV_series))*. Following his elimination, he was brought back to join the boy band [One Direction] Styles released his [self-titled debut solo album](https://en.wikipedia.org/wiki/Harry_Styles_(album)) through [Columbia Records](https://en.wikipedia.org/wiki/Columbia_Records) in 2017. It debuted at number one in the UK and the US and was one of the world's top-ten best-selling albums of the year, while its lead single, [Sign of the Times](https://en.wikipedia.org/wiki/Sign_of_the_Times_(Harry_Styles_song)), topped the [UK Singles Chart](https://en.wikipedia.org/wiki/UK_Singles_Chart). Styles second album, [Fine Line](https://en.wikipedia.org/wiki/Fine_Line_(album)) (2019), debuted atop the US [Billboard 200])");    
+            return("Harry Edward Styles (born 1 February 1994) is an English singer, songwriter and actor. His musical career began in 2010 as a solo contestant on the British music competition series *[The X Factor](https://en.wikipedia.org/wiki/The_X_Factor_(UK_TV_series))*. Following his elimination, he was brought back to join the boy band [One Direction] Styles released his [self-titled debut solo album](https://en.wikipedia.org/wiki/Harry_Styles_(album)) through [Columbia Records] " );    
     }
     return 0;
 }
