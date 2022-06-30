@@ -27,8 +27,9 @@ void user_menu();
 int view_records();
 
 /*  Saves score of user into structure for future access after game ends */
-void score_save(int *,float *,float *,float *,float *);
+void score_save(int gmode,float *wpm,float *acc,float *netwpm,int BBscore);
 
+void waterfall();
 // metric scale for generating feedback wrt wpm
 char* feedback_generator(float);
 
@@ -40,3 +41,23 @@ void print_instructions(int mode);
 
 /*  Enters game mode passed as argument */
 void game_mode(int mode);
+
+typedef struct
+{
+char date[100];
+char time[100];
+float wpm;
+float accuracy;
+float netwpm;
+int gmode;
+int BBscore;
+}SCORE;
+
+extern SCORE scores[100];
+extern int score_n;
+
+void open_scorefile();
+void waterfall();
+int score_init();
+
+int write_score(int gmode,float *wpm,float *acc,float *net_wpm,int BBscore);

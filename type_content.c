@@ -10,6 +10,9 @@
 #include<time.h>
 #include"tc.h"
 #define CLEAR_INSTREAM FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE))
+SCORE scores[100];
+int score_n;
+FILE *score_fp;
 int menu_input(int n)//function that prints the various menus to be used throughout the program
 {
     printf("\e[?25l");
@@ -245,6 +248,10 @@ void score(float time_taken,int count,int size,char gmode,int BBscore)
         }
         printf("%.1f%c%s",acc,'%',TC_NRM);
     }
+    if(gmode=='n')
+    {
+        score_save(1,&wpm,&acc,&netwpm,-1);
+    }
     if(gmode=='d')
     {
         TC_CLRSCR();
@@ -254,9 +261,9 @@ void score(float time_taken,int count,int size,char gmode,int BBscore)
     else if(gmode=='s')
     { 
         printf("\nYour Score was: %s%d%s",TC_GRN,BBscore,TC_NRM);
+        score_save(2,&wpm,&acc,&netwpm,BBscore);
     }
     getch();
-    //score_save(&wpm,&acc,&netwpm,&time_taken);
 }
 void trimTrailing(char * str)
 {
@@ -342,9 +349,18 @@ int bball_dunk()
     return type_disp(tmp,5,'b');
 }
 
-void score_save(int *mode,float *wpm,float *acc,float *netwpm,float *time_taken)
+void score_save(int mode, float *wpm, float *acc, float *netwpm, int BBscore)
 {
-    //dodo
+    strcpy(scores[score_n].date,__DATE__);
+    strcpy(scores[score_n].time,__TIME__);
+    scores[score_n].gmode=mode;
+    scores[score_n].wpm=*wpm;
+    scores[score_n].accuracy=*acc;
+    scores[score_n].netwpm=*netwpm;
+    scores[score_n].BBscore=BBscore;
+    score_n++;
+    open_scorefile();
+    write_score(mode,wpm,acc,netwpm,BBscore);
 }
 
 char* level(int operation)
@@ -372,13 +388,62 @@ int view_records()
     return 0;
 }
 
+void open_scorefile()
+{
+    char f_name[100];
+    f_name[0]='\0';
+    strcat(f_name,s[curr_user].usrn);
+    strcat(f_name,".txt");
+    char f_name1[100];
+    f_name1[0]='\0';
+    strcat(f_name1,"resources/");
+    strcat(f_name1,f_name);
+    score_fp=fopen(f_name1,"r");
+    score_n=score_init();
+    fclose(score_fp);
+}
+int write_score(int gmode,float *wpm,float *acc,float *net_wpm, int BBscore)
+{
+	// open file for appending
+    char f_name[100];
+    f_name[0]='\0';
+    strcat(f_name,s[curr_user].usrn);
+    strcat(f_name,".txt");
+    char f_name1[100];
+    f_name1[0]='\0';
+    strcat(f_name1,"resources/");
+    strcat(f_name1,f_name);
+    score_fp=fopen(f_name1,"a");
+	fprintf(score_fp,"%s,%s,%f,%f,%f,%d,%d\n",__DATE__,__TIME__,*wpm,*acc,*net_wpm,gmode,BBscore);
+	fclose(score_fp);
+	return 0;
+}
+int score_init()
+{
+    char l[100];
+    fgets(l,100,score_fp);
+    int i=0;	
+    while(fgets(l,100,score_fp)!=NULL)
+    {
+        strcpy(scores[i].date,strtok(l,","));
+        strcpy(scores[i].time,strtok(NULL,","));
+        scores[i].wpm=atof(strtok(NULL,","));
+        scores[i].accuracy=atof(strtok(NULL,","));
+        scores[i].netwpm=atof(strtok(NULL,","));
+        scores[i].gmode=atoi(strtok(NULL,"\n"));
+        scores[i].BBscore=atoi(strtok(NULL,"\n"));
+        i++;
+    }
+    return i;
+}
+
 void user_menu() 
 {
     TC_CLRSCR();
     TC_MOVE_CURSOR(0,0);
     printf("Welcome to TYRBO, %s\n",s[curr_user].name);
     printf("What would you like to do?\n\n"); //very informal
-    printf("\n1. Start Game\n2. View Archive\n3. User Settings \n4. View Gallery \n5. Credits\n6. Log Out\n7. Exit Application\n\n");
+    printf("\n1. Game\n2. Archive\n3. Settings \n4. Gallery \n5. Credits\n6. Log Out\n7. Exit\n\n");
     char choice[20];
     fflush(stdin);
     scanf("%[^\n]s",choice);
@@ -388,17 +453,17 @@ void user_menu()
         if(!game_menu())
             user_menu();
     }
-    else if(!strcmp(choice,"2")||!strcmpi(choice,"Archive")||!strcmpi(choice,"Viewarchive")||!strcmpi(choice,"view archive"))
+    else if(!strcmp(choice,"2")||!strcmpi(choice,"Archive")||!strcmpi(choice,"Viewarchive"))
     {
         if(!view_records())
             user_menu();
     }
-    else if(!strcmp(choice,"3")||!strcmpi(choice,"Usersettings")||!strcmpi(choice,"User settings")||!strcmpi(choice,"settings"))
+    else if(!strcmp(choice,"3")||!strcmpi(choice,"settings"))
     {
         if(!user_settings())
             user_menu();
     }
-    else if(!strcmp(choice,"4")||!strcmpi(choice,"ViewGallery")||!strcmpi(choice,"View Gallery")||!strcmpi(choice,"Gallery"))
+    else if(!strcmp(choice,"4")||!strcmpi(choice,"Gallery")||!strcmpi(choice,"Gall"))
     {
         TC_CLRSCR();
         TC_MOVE_CURSOR(0,0);
@@ -424,7 +489,7 @@ void user_menu()
         TC_MOVE_CURSOR(0,0);
         menu_input(1);
     }
-    else if(!strcmp(choice,"7")||!strcmpi(choice,"exit")||!strcmpi(choice,"exit application")||!strcmpi(choice,"exitapplication"))
+    else if(!strcmp(choice,"7")||!strcmpi(choice,"exit")||!strcmpi(choice,"leave"))
     {
         TC_CLRSCR();
         TC_MOVE_CURSOR(0,0);
@@ -444,20 +509,20 @@ int game_menu()
 {
     TC_CLRSCR();
     TC_MOVE_CURSOR(0,0);
-    printf("\nTYRBO GAMEMODES\n\nHELLO %s\nChoose a game mode :\n",s[curr_user].name);
-    printf("\n1. Normal Typing Test\n2. Sudden Death\n3. Basketball\n4. Help \n5. Go Back\n\n"); //improve nomenclature
+    printf("\nTYRBO GAMEMODES\n\nHello %s\n, what would you like to play ?\n",s[curr_user].name);
+    printf("\n1. Standard\n2. Sudden Death\n3. Basketball\n4. Help \n5. Go Back\n\n"); //improve nomenclature
     char choice[20];
     fflush(stdin);
     scanf("%[^\n]s",choice);
     fflush(stdin);
-    if(!strcmp(choice,"1")||!strcmpi(choice,"Normal mode")||!strcmpi(choice,"Normal")||!strcmpi(choice,"Normal Typing Test"))
+    if(!strcmp(choice,"1")||!strcmpi(choice,"standard")||!strcmpi(choice,"std"))
     {
         //call normal test function
         //call difficulty level thing also
         game_mode(1);
         return 1;
     }
-    else if(!strcmp(choice,"2")||!strcmpi(choice,"suddendeath")||!strcmpi(choice,"sudden death")||!strcmpi(choice,"play sudden death"))
+    else if(!strcmp(choice,"2")||!strcmpi(choice,"suddendeath")||!strcmpi(choice,"sudden death")||!strcmpi(choice,"sudden")||!strcmpi(choice,"death")||!strcmpi(choice,"play sudden death"))
     {
         game_mode(2);
         return 1;
@@ -489,31 +554,28 @@ void game_mode(int mode)
     TC_CLRSCR();
     TC_MOVE_CURSOR(0,0);
     if(mode==1)
-        printf("TYPING TEST\n\n");
+        printf("STANDARD\n\n");
     if(mode==2)
         printf("SUDDEN DEATH\n\n");
     if(mode==3)
         printf("BASKETBALL\n\n");
-    printf("1. Start Game\n2. Instructions\n3. Go Back\n\n");
+    printf("1. Start\n2. Instructions\n3. Go Back\n\n");
     char choice[20];
     fflush(stdin);
     scanf("%[^\n]s",choice);
     fflush(stdin);
-    if(!strcmp(choice,"1")||!strcmpi(choice,"start")||!strcmpi(choice,"start game")||!strcmpi(choice,"play"))
+    if(!strcmp(choice,"1")||!strcmpi(choice,"start")||!strcmpi(choice,"start game")||!strcmpi(choice,"play")||!strcmpi(choice,"game")||!strcmpi(choice,"s"))
     {
-        /*for(int i=0;i<50;i++)
-        {
-            printf("\b \b");
-        }
-        */
         char *s;
         if(!(mode==3))
         {
             int flag;
             do
             {
+                TC_CLRSCR();
+                TC_MOVE_CURSOR(0,0);
                 flag=0;
-                printf("Choose Difficulty Level : \n1. Easy\n2. Moderate\n3. Hard\n\n"); //string fetched on the basis of difficulty level chosen by the player
+                printf("Choose a difficulty level : \n1. Easy\n2. Moderate\n3. Hard\n\n"); //string fetched on the basis of difficulty level chosen by the player
                 char choice[20];
                 fflush(stdin);
                 scanf("%[^\n]s",choice);
@@ -527,11 +589,19 @@ void game_mode(int mode)
                 else
                 {
                     printf("Invalid Choice.");
+                    Sleep(1300);
                     flag=1;
                 }
             } while(flag);
+            if(mode==1)
+                type_disp(s,strlen(s)-1,'n');
+            else
+                type_disp(s,strlen(s),'s');
         }
-        //call function which starts the game
+        else
+        {
+            type_disp("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa Wikipedia is a multilingual free online ",194,'s');
+        }
     }
     else if(!strcmp(choice,"2")||!strcmpi(choice,"instructions"))
     {
@@ -547,6 +617,8 @@ void game_mode(int mode)
         return game_mode(mode);
     }
 }
+
+
 
 // metric scale for generating feedback wrt wpm
 char* feedback_generator(float metric)
@@ -592,4 +664,18 @@ void caps_check()
         TC_MOVE_CURSOR((columns-16)/2,(rows/2)+4);
         printf("               ");
     }
+}
+void waterfall()
+{
+    FILE *fp=fopen("ascii.txt","r");
+    char ch[200];
+    TC_CLRSCR();
+    TC_MOVE_CURSOR(0,0);
+    //TC_MOVE_CURSOR(0,0);
+    while(fgets(ch,105,fp)!=NULL)
+    {
+        printf("%s",ch);
+        Sleep(36);
+    }
+    fclose(fp);
 }
