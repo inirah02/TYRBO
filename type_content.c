@@ -13,8 +13,8 @@
 int menu_input(int n)//function that prints the various menus to be used throughout the program
 {
     printf("\e[?25l");
-    int x=0,y=0;
-    coord_details(&x,&y,0);
+    int x=0,y=0,rows=0,columns=0;
+    coord_details(&rows,&columns,&x,&y,0);
     char tmp[10];
     switch(n)
     {
@@ -51,8 +51,8 @@ int menu_input(int n)//function that prints the various menus to be used through
 void print_menu()//function to print the Landing Page
 {
     TC_CLRSCR();
-    int x=0,y=0;
-    coord_details(&x,&y,0);
+    int x=0,y=0,rows=0,columns=0;
+    coord_details(&rows,&columns,&x,&y,0);
     TC_MOVE_CURSOR(((columns-32)/2),(rows/2)-1);
     int count=menu_type("Welcome To Turb");
     Sleep(1000);//stops execution for time in ms specified in parameter
@@ -94,8 +94,8 @@ int type_disp( char* p,int size, char gmode)
     TC_CLRSCR();
     char tmp[size];
     strcpy(tmp,p);
-    int x=0,y=0;
-    coord_details(&x,&y,size);
+    int x=0,y=0,rows=0,columns=0;
+    coord_details(&rows,&columns,&x,&y,size);
     int ycopy=y;
     TC_CLRSCR();
     TC_MOVE_CURSOR(x,y);
@@ -129,8 +129,8 @@ int type_input(char* p,int size,char gmode)
     int tmp=1;
     int count=0;
     int streak=0;
-    int x=0,y=0;
-    coord_details(&x,&y,size);
+    int x=0,y=0,rows=0,columns=0;
+    coord_details(&rows,&columns,&x,&y,size);
     FILE *fp;
     fp=fopen("resources/art/BB Launch.txt","r");
     char bball=fgetc(fp);
@@ -580,6 +580,8 @@ void print_instructions(int mode)
 }
 void caps_check()
 {
+    int rows=0,columns=0;
+    termsize(&rows,&columns);
     if (GetKeyState(VK_CAPITAL) & 1)
     {
         TC_MOVE_CURSOR((columns-16)/2,(rows/2)+4);
