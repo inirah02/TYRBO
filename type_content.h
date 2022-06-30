@@ -11,8 +11,9 @@ void trimTrailing(char * str);
 void score(float,int,int,char,int);//function to calculate the user score.Parameters:(time_taken,total characters input by user,size of string)
 int handle_wrong_case(FILE* fp,int* b,int* streak,int* count,char* p,int x,int y,int color);
 void art_disp( char*);
+void caps_check();
 int bball_dunk();
-
+int rows,columns;
 /*  Displays Available game modes and allows user to 
     take necessary action.
 */
