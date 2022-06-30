@@ -1,6 +1,7 @@
 {
     "files.associations": {
-        "windows.h": "c"
+        "windows.h": "c",
+        "type_content.h": "c"
     },
     "C_Cpp.errorSquiggles": "Enabled"
 }
