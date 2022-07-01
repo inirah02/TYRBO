@@ -263,7 +263,10 @@ void score(float time_taken,int count,int size,char gmode,int BBscore)
         printf("\nYour Score was: %s%d%s",TC_GRN,BBscore,TC_NRM);
         score_save(2,&wpm,&acc,&netwpm,BBscore);
     }
+    printf("\n%sPress any key to continue%s",TC_YEL,TC_NRM);
+    Sleep(1500);
     getch();
+    user_menu();
 }
 void trimTrailing(char * str)
 {
@@ -396,7 +399,7 @@ void open_scorefile()
     strcat(f_name,".txt");
     char f_name1[100];
     f_name1[0]='\0';
-    strcat(f_name1,"resources/");
+    strcat(f_name1,"resources/score/");
     strcat(f_name1,f_name);
     score_fp=fopen(f_name1,"r");
     score_n=score_init();
@@ -411,7 +414,7 @@ int write_score(int gmode,float *wpm,float *acc,float *net_wpm, int BBscore)
     strcat(f_name,".txt");
     char f_name1[100];
     f_name1[0]='\0';
-    strcat(f_name1,"resources/");
+    strcat(f_name1,"resources/score/");
     strcat(f_name1,f_name);
     score_fp=fopen(f_name1,"a");
 	fprintf(score_fp,"%s,%s,%f,%f,%f,%d,%d\n",__DATE__,__TIME__,*wpm,*acc,*net_wpm,gmode,BBscore);
@@ -493,8 +496,7 @@ void user_menu()
     {
         TC_CLRSCR();
         TC_MOVE_CURSOR(0,0);
-        printf("It was a pleasure serving you.\nHope to see you soon.\n");
-        Sleep(2000);
+        waterfall();
         exit(0);
     }
     else
@@ -509,7 +511,7 @@ int game_menu()
 {
     TC_CLRSCR();
     TC_MOVE_CURSOR(0,0);
-    printf("\nTYRBO GAMEMODES\n\nHello %s\n, what would you like to play ?\n",s[curr_user].name);
+    printf("\nTYRBO GAMEMODES\n\nHello %s,\n what would you like to play ?\n",s[curr_user].name);
     printf("\n1. Standard\n2. Sudden Death\n3. Basketball\n4. Help \n5. Go Back\n\n"); //improve nomenclature
     char choice[20];
     fflush(stdin);
@@ -596,11 +598,11 @@ void game_mode(int mode)
             if(mode==1)
                 type_disp(s,strlen(s)-1,'n');
             else
-                type_disp(s,strlen(s),'s');
+                type_disp(s,strlen(s)-1,'d');
         }
         else
         {
-            type_disp("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa Wikipedia is a multilingual free online ",194,'s');
+            type_disp("Wikipedia is a multilingual free online encyclopedia written and maintained by a community of volunteers through open collaboration and a wiki-based editing system. Individual contributors, also called editors, are known as Wikipedians. ",237,'s');
         }
     }
     else if(!strcmp(choice,"2")||!strcmpi(choice,"instructions"))
@@ -667,7 +669,8 @@ void caps_check()
 }
 void waterfall()
 {
-    FILE *fp=fopen("ascii.txt","r");
+    printf("\e[?25l");
+    FILE *fp=fopen("resources/art/TYRBO.txt","r");
     char ch[200];
     TC_CLRSCR();
     TC_MOVE_CURSOR(0,0);
@@ -678,4 +681,6 @@ void waterfall()
         Sleep(36);
     }
     fclose(fp);
+    TC_CLRSCR();
+    TC_MOVE_CURSOR(0,0);
 }
