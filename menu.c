@@ -289,21 +289,3 @@ void print_instructions(int mode)
         if(getch()=='B')
             break;
 }
-
-void waterfall()
-{
-    printf("\e[?25l");
-    FILE *fp=fopen("resources/art/TYRBO.txt","r");
-    char ch[200];
-    TC_CLRSCR();
-    TC_MOVE_CURSOR(0,0);
-    //TC_MOVE_CURSOR(0,0);
-    while(fgets(ch,105,fp)!=NULL)
-    {
-        printf("%s",ch);
-        Sleep(36);
-    }
-    fclose(fp);
-    TC_CLRSCR();
-    TC_MOVE_CURSOR(0,0);
-}
