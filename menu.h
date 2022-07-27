@@ -11,8 +11,6 @@ void user_menu();
 */
 int view_records();
 
-
-void waterfall();
 // metric scale for generating feedback wrt wpm
 char* feedback_generator(float);
 
