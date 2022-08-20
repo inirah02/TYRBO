@@ -134,7 +134,7 @@ int type_input(char* p,int size,char gmode)
     int x=0,y=0,rows=0,columns=0;
     coord_details(&rows,&columns,&x,&y,size);
     FILE *fp;
-    fp=fopen("resources/art/BB Launch.txt","r");
+    fp=fopen("resources/art/BB_Launch.txt","r");
     char bball=fgetc(fp);
     int b=1;
     for(;((*(p+1))!='\0')&&(ch=getch());)
@@ -177,10 +177,9 @@ int type_input(char* p,int size,char gmode)
             bball=fgetc(fp);
             if(streak==65)
             {
-
                 if(bball_dunk())
                 {
-                    art_disp("resources/art/BB Dunk.txt");
+                    art_disp("resources/art/BB_Dunk.txt");
                     BBscore+=25;
                 }
                 else
@@ -333,27 +332,56 @@ void art_disp(char *filename)
 }
 int bball_dunk()
 {
-    // FILE *frand;
-    // frand=fopen("resources/Dunk words.csv","r");
-    // srand(time(NULL));
-    // int r=0;
-    // while(!(r>0))
-    // {
-    //     r=rand() % 213;
-    // }
-    // char ch[1100];
-    // char tmp[6];
-    // fgets(ch,1100,frand);
-    // strcpy(tmp,strtok(ch,","));
-    // for(int i=0;i<=r-1;i++)
-    // {
-    //     strcpy(tmp,strtok(NULL,","));
-    // }
+    FILE *frand;
+    frand=fopen("resources/Dunk_words.csv","r");
+    srand(time(NULL));
+    int r=0;
+    while(!(r>0))
+    {
+        r=rand() % 213;
+    }
+    char ch[1500];
+    char tmp[6];
+    // char tmp2[6];
+    if(fgets(ch,1500,frand)==NULL)
+    {
+        TC_CLRSCR();
+        printf("Something went wrong..\nReturning back to home page..\n");
+        Sleep(200);
+        user_menu();
+    } 
+    char* tmp2=strtok(ch,",");
+    if(tmp2!=NULL)
+    {
+        strcpy(tmp,tmp2);
+    }
+    else
+    {
+        TC_CLRSCR();
+        printf("Something went wrong..\nReturning back to home page..\n");
+        Sleep(200);
+        user_menu();
+    }
+    for(int i=0;i<=r-1;i++)
+    {
+        tmp2=strtok(NULL,",");
+        if(tmp2!=NULL)
+        {
+            strcpy(tmp,tmp2);
+        }
+        else
+        {
+            TC_CLRSCR();
+            printf("Something went wrong..\nReturning back to home page..\n");
+            Sleep(200);
+            user_menu();
+        }
+    }
     TC_CLRSCR();
     art_disp("resources/art/BASKETBALL.txt");
     Sleep(750);
-    // fclose(frand);
-    return type_disp("Tyrbo ",5,'b');
+    fclose(frand);
+    return type_disp(tmp,5,'b');
 }
 void caps_check()
 {

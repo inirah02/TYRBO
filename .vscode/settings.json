@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "cstdio": "c"
+        "cstdio": "c",
+        "tc.h": "c",
+        "io.h": "c"
     }
 }
