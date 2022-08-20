@@ -136,7 +136,7 @@ void user_menu()
     {
         TC_CLRSCR();
         TC_MOVE_CURSOR(0,0);
-        waterfall();
+        art_disp("resources/art/TYRBO.txt");
         exit(0);
     }
     else
@@ -242,7 +242,7 @@ void game_mode(int mode)
         }
         else
         {
-            type_disp("Wikipedia is a multilingual free online encyclopedia written and maintained by a community of volunteers through open collaboration and a wiki-based editing system. Individual contributors, also called editors, are known as Wikipedians. ",237,'s');
+            type_disp("Wikipedia is a multilingual free online encyclopedia written and maintained by a community of volunteers through open collaboration and a wiki-based editing system. Its editors are known as Wikipedians. Wikipedia is the largest and most-read reference work in history. ",269,'s');
         }
     }
     else if(!strcmp(choice,"2")||!strcmpi(choice,"instructions"))
