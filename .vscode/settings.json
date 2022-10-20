@@ -2,6 +2,8 @@
     "files.associations": {
         "cstdio": "c",
         "tc.h": "c",
-        "io.h": "c"
+        "io.h": "c",
+        "type_content.h": "c",
+        "user_manage.h": "c"
     }
 }
